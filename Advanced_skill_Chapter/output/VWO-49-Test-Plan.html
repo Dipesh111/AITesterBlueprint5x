@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VWO-49 Test Plan</title>
+  <style>
+    :root {
+      --ink: #182238;
+      --muted: #667085;
+      --brand: #4d3bb3;
+      --brand-light: #f2f0ff;
+      --line: #d7deea;
+      --surface: #f4f6fa;
+      --warning: #8a5a00;
+      --review: #fff5d6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--surface);
+      color: var(--ink);
+      font: 15px/1.55 "Segoe UI", Arial, sans-serif;
+    }
+    .document {
+      width: min(1180px, calc(100% - 40px));
+      margin: 32px auto;
+      padding: 48px 56px;
+      background: #fff;
+      box-shadow: 0 8px 32px rgba(23,32,51,.08);
+    }
+    header {
+      padding-bottom: 24px;
+      border-bottom: 4px solid var(--brand);
+    }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 0; font-size: clamp(28px, 5vw, 42px); line-height: 1.15; }
+    h2 { margin: 32px 0 12px; padding-bottom: 7px; border-bottom: 1px solid var(--line); font-size: 24px; }
+    h3 { margin: 20px 0 8px; font-size: 18px; }
+    p { margin: 8px 0 12px; }
+    ul, ol { padding-left: 24px; }
+    li { margin: 5px 0; }
+    a { color: var(--brand); }
+    .status {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 7px 12px;
+      border-radius: 4px;
+      background: var(--review);
+      color: #755100;
+      font-weight: 700;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .meta div {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+    }
+    .meta strong { display: block; color: var(--muted); font-size: 12px; text-transform: uppercase; }
+    .gate, .callout {
+      margin: 18px 0;
+      padding: 16px 18px;
+      border-left: 5px solid var(--brand);
+      background: var(--brand-light);
+    }
+    .gate { border-left-color: #b7791f; background: var(--review); }
+    table {
+      width: 100%;
+      margin: 14px 0 22px;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #eef0f7; font-weight: 700; }
+    tr { break-inside: avoid; }
+    .p0 { color: #b42318; font-weight: 700; }
+    .p1 { color: var(--warning); font-weight: 700; }
+    .p2 { color: #475467; font-weight: 700; }
+    footer {
+      margin-top: 40px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    @media (max-width: 800px) {
+      .document { width: 100%; margin: 0; padding: 28px 20px; }
+      .meta { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; }
+    }
+    @media print {
+      @page { size: A3 landscape; margin: 12mm; }
+      body { background: #fff; font-size: 10pt; }
+      .document { width: auto; margin: 0; padding: 0; box-shadow: none; }
+      h2, h3 { break-after: avoid; }
+      table { font-size: 8pt; }
+      tr { break-inside: avoid; }
+      th { background: #eef0f7 !important; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+<main class="document">
+  <header>
+    <p class="eyebrow">Wingify / VWO · Test Plan</p>
+    <h1>VWO-49: Add Passkey and SSO Login Options</h1>
+    <div class="status">DRAFT - pending human review</div>
+    <div class="meta">
+      <div><strong>Ticket</strong>VWO-49</div>
+      <div><strong>Priority</strong>High</div>
+      <div><strong>Type</strong>Story</div>
+      <div><strong>Epic</strong>Authentication Enhancements</div>
+      <div><strong>Source</strong>Exported Jira asset</div>
+      <div><strong>Approval</strong>Not approved</div>
+    </div>
+  </header>
+
+  <section>
+    <h2>1. Scope &amp; Objectives</h2>
+    <h3>In scope</h3>
+    <ul>
+      <li>Visibility and ordering of “Sign in using SSO” and “Sign in with Passkey”.</li>
+      <li>Successful and failed SSO authentication.</li>
+      <li>Successful passkey authentication and fallback guidance.</li>
+      <li>Unsupported browser/device behavior, security, accessibility, responsiveness, and compatibility.</li>
+      <li>Regression checks for existing Google and email/password login options.</li>
+    </ul>
+    <h3>Out of scope</h3>
+    <ul>
+      <li>Passkey registration, covered by a separate story.</li>
+      <li>SSO provider configuration.</li>
+    </ul>
+    <p><strong>Objective:</strong> Determine whether the new login choices are usable, securely integrated, positioned correctly, compatible with supported environments, and do not regress existing authentication methods.</p>
+  </section>
+
+  <section>
+    <h2>2. Gaps &amp; Questions for the Author</h2>
+    <table>
+      <thead><tr><th>#</th><th>Area</th><th>Finding</th><th>Question</th></tr></thead>
+      <tbody>
+        <tr><td>G1</td><td>UI</td><td>⚠️ Exact placement, spacing, and order are ambiguous.</td><td>Provide the approved mockup and exact expected order.</td></tr>
+        <tr><td>G2</td><td>SSO</td><td>⚠️ Invalid credential behavior and copy are not exact.</td><td>Define expected copy for wrong password, unknown account, cancellation, MFA failure, and provider outage.</td></tr>
+        <tr><td>G3</td><td>SSO</td><td>❌ Configured identity providers are missing.</td><td>List providers and supported protocols/domains.</td></tr>
+        <tr><td>G4</td><td>SSO</td><td>❌ Valid test accounts and setup are missing.</td><td>Who provisions authorized and unauthorized identities?</td></tr>
+        <tr><td>G5</td><td>Passkey</td><td>⚠️ Verification state is not detailed.</td><td>Which platform authenticator flows and prerequisites are supported?</td></tr>
+        <tr><td>G6</td><td>Passkey</td><td>⚠️ Fallback copy and action are unspecified.</td><td>What guidance should appear for an unregistered passkey?</td></tr>
+        <tr><td>G7</td><td>Passkey</td><td>❌ Browser/device matrix is missing.</td><td>Which browser, OS, and device combinations are supported?</td></tr>
+        <tr><td>G8</td><td>Passkey</td><td>⚠️ Cancellation and timeout behavior are undefined.</td><td>Define cancellation, verification failure, timeout, and authenticator-unavailable states.</td></tr>
+        <tr><td>G9</td><td>Security</td><td>⚠️ Protocol requirements need implementation confirmation.</td><td>Confirm OAuth/SAML/WebAuthn handling, redirect allowlists, state/nonce, TLS, and log masking.</td></tr>
+        <tr><td>G10</td><td>Session</td><td>❌ Authorization and session requirements are missing.</td><td>Define timeout, logout, cookie, and protected-page behavior.</td></tr>
+        <tr><td>G11</td><td>Accessibility</td><td>❌ Keyboard, screen-reader, focus, and contrast criteria are missing.</td><td>Define the WCAG level and assistive technology matrix.</td></tr>
+        <tr><td>G12</td><td>Responsive</td><td>❌ Required viewports and browser matrix are missing.</td><td>Which desktop/mobile viewports and browsers require sign-off?</td></tr>
+        <tr><td>G13</td><td>Internationalization</td><td>❌ Localization behavior is missing.</td><td>Which locales and layout directions are in scope?</td></tr>
+        <tr><td>G14</td><td>Performance</td><td>❌ Response-time criteria are missing.</td><td>Set page-load, redirect, and authentication thresholds.</td></tr>
+        <tr><td>G15</td><td>Observability</td><td>❌ Audit/logging requirements are missing.</td><td>Which login events and redaction rules apply?</td></tr>
+        <tr><td>G16</td><td>Environment</td><td>❌ Staging URL and feature flag are missing.</td><td>Provide the environment, build, and configuration status.</td></tr>
+        <tr><td>G17</td><td>Test data</td><td>❌ Valid/invalid identities and authenticators are missing.</td><td>Where are approved test identities and passkey devices provisioned?</td></tr>
+        <tr><td>G18</td><td>Regression</td><td>⚠️ Existing-flow regression is implicit.</td><td>Confirm whether Google, email/password, Forgot Password, and Remember Me require full regression.</td></tr>
+        <tr><td>G19</td><td>Rollback</td><td>❌ Rollback behavior is missing.</td><td>What happens when the feature or provider is disabled?</td></tr>
+        <tr><td>G20</td><td>Prior execution</td><td>⚠️ Exported runs were blocked due to test setup.</td><td>Confirm automation environment, credentials, and device readiness.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>3. Test Scenarios</h2>
+    <table>
+      <thead><tr><th>ID</th><th>Priority</th><th>Type</th><th>Scenario</th><th>Maps to</th></tr></thead>
+      <tbody>
+        <tr><td>TS-01</td><td class="p0">P0</td><td>Positive/UI</td><td>Verify both buttons are visible, correctly named, and positioned below Google.</td><td>AC-1</td></tr>
+        <tr><td>TS-02</td><td class="p0">P0</td><td>Negative/UI</td><td>Check rendering on approved desktop/mobile viewports and browsers.</td><td>AC-5; G12</td></tr>
+        <tr><td>TS-03</td><td class="p0">P0</td><td>Accessibility</td><td>Verify keyboard order, focus, labels, error announcements, and contrast.</td><td>AC-1; G11</td></tr>
+        <tr><td>TS-04</td><td class="p0">P0</td><td>Positive/SSO</td><td>Complete SSO with a valid identity and verify dashboard redirect and session.</td><td>AC-2</td></tr>
+        <tr><td>TS-05</td><td class="p0">P0</td><td>Negative/SSO</td><td>Cancel or deny authorization and verify no session or protected data is created.</td><td>AC-2; G2</td></tr>
+        <tr><td>TS-06</td><td class="p0">P0</td><td>Negative/SSO</td><td>Use invalid or unauthorized credentials and verify the defined safe error.</td><td>AC-2; AC-4</td></tr>
+        <tr><td>TS-07</td><td class="p0">P0</td><td>Negative/SSO</td><td>Exercise provider outage or timeout and verify recoverable error handling.</td><td>AC-4; G14</td></tr>
+        <tr><td>TS-08</td><td class="p0">P0</td><td>Security/SSO</td><td>Verify protocol handling, state/nonce, callback, and redirect protections.</td><td>AC-6</td></tr>
+        <tr><td>TS-09</td><td class="p0">P0</td><td>Positive/Passkey</td><td>Authenticate with a registered passkey on a supported device and redirect to the dashboard.</td><td>AC-3</td></tr>
+        <tr><td>TS-10</td><td class="p0">P0</td><td>Negative/Passkey</td><td>Initiate login with no registered passkey and verify fallback guidance.</td><td>AC-3</td></tr>
+        <tr><td>TS-11</td><td class="p0">P0</td><td>Negative/Passkey</td><td>Cancel verification or fail user verification and verify the defined error state.</td><td>AC-4; G8</td></tr>
+        <tr><td>TS-12</td><td class="p0">P0</td><td>Negative/Passkey</td><td>Use an unsupported browser/device and verify clear guidance without false success.</td><td>AC-4; AC-5</td></tr>
+        <tr><td>TS-13</td><td class="p1">P1</td><td>Compatibility</td><td>Test passkey login across the approved browser/OS/device matrix.</td><td>AC-5; G7</td></tr>
+        <tr><td>TS-14</td><td class="p1">P1</td><td>Compatibility</td><td>Test success and failure through each configured identity provider.</td><td>AC-5</td></tr>
+        <tr><td>TS-15</td><td class="p0">P0</td><td>Security/Session</td><td>Verify logout, timeout, back navigation, and direct protected-page access.</td><td>AC-6; G10</td></tr>
+        <tr><td>TS-16</td><td class="p0">P0</td><td>Security/Data</td><td>Verify credentials, tokens, passkey assertions, and provider responses are not exposed.</td><td>AC-6</td></tr>
+        <tr><td>TS-17</td><td class="p1">P1</td><td>Resilience</td><td>Verify existing login remains usable if SSO/passkey is unavailable or disabled.</td><td>G19</td></tr>
+        <tr><td>TS-18</td><td class="p1">P1</td><td>Regression</td><td>Verify Google, email/password, Forgot Password, and dashboard flows remain unchanged.</td><td>G18</td></tr>
+        <tr><td>TS-19</td><td class="p1">P1</td><td>Responsiveness</td><td>Verify controls and errors do not overflow or overlap on approved viewports.</td><td>Test Scenario 7</td></tr>
+        <tr><td>TS-20</td><td class="p1">P1</td><td>Observability</td><td>Verify approved success/failure events are recorded without sensitive values.</td><td>G15</td></tr>
+        <tr><td>TS-21</td><td class="p2">P2</td><td>Internationalization</td><td>Verify supported locale text and layout behavior if localization is in scope.</td><td>G13</td></tr>
+        <tr><td>TS-22</td><td class="p2">P2</td><td>Performance</td><td>Measure page-load, provider redirect, and authentication behavior against thresholds.</td><td>G14</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>4. Test Data &amp; Environment</h2>
+    <ul>
+      <li><strong>Data:</strong> Synthetic valid/invalid SSO identities, authorized and unauthorized accounts, passkey-enabled devices, passkey-free profiles, and existing-login regression accounts.</li>
+      <li><strong>Environment / flags:</strong> Staging URL and feature/configuration flag, OAuth/SAML test tenants, redirect URIs, browser/OS/device matrix, and passkey authenticators; all to be confirmed.</li>
+      <li><strong>Roles / permissions:</strong> Authorized and unauthorized SSO identities, existing dashboard account, and logged-in/logged-out states.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>5. Risks &amp; Assumptions</h2>
+    <ul>
+      <li><strong>Assumptions:</strong> VWO-49 is the intended ticket; passkey registration and provider configuration are separate; staging is the validation environment.</li>
+      <li><strong>Risks:</strong> SSO may vary by provider/MFA; passkey behavior depends on browser, OS, and hardware; exact UI, copy, session, and rollback behavior is not stated; earlier automated runs were blocked.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>6. Entry / Exit Criteria</h2>
+    <h3>Entry</h3>
+    <ul>
+      <li>Feature deployed to staging with provider/passkey configuration.</li>
+      <li>Test accounts, devices, browser matrix, and environment are available.</li>
+      <li>Blocking ticket gaps have owners or accepted defaults.</li>
+    </ul>
+    <h3>Exit</h3>
+    <ul>
+      <li>All P0 scenarios pass or accepted P0 risk is documented.</li>
+      <li>P1 scenarios pass or approved waivers exist.</li>
+      <li>No open critical/high defects; QA sign-off and documentation are complete.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Resource Allocation</h2>
+    <ul>
+      <li><strong>QA:</strong> Functional, negative, boundary, accessibility, compatibility, and regression execution.</li>
+      <li><strong>Developer:</strong> Environment setup, diagnostics, defect resolution, and security review.</li>
+      <li><strong>Product/UX:</strong> Placement, copy, mockup, fallback, and behavior sign-off.</li>
+      <li><strong>Security/Identity:</strong> Protocol, session, callback, logging, and provider review.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>8. Timelines &amp; Sprint Details</h2>
+    <ul>
+      <li>Sprint: Not specified.</li>
+      <li>Fix version: Not specified.</li>
+      <li>Remaining estimate: Not specified.</li>
+      <li>Timeline to be added after environment readiness and test-data provisioning are confirmed.</li>
+    </ul>
+  </section>
+
+  <section class="gate">
+    <h2>Human Review Gate</h2>
+    <p><strong>I assumed:</strong> VWO-49 is the ticket to plan and P0/P1/P2 priorities reflect authentication risk.</p>
+    <p><strong>I could not confirm:</strong> Staging URL, provider list, passkey matrix, exact UI/copy, session policy, locale/performance targets, test accounts, and automation readiness.</p>
+    <p><strong>Open questions blocking sign-off:</strong> G1–G20, especially G3, G4, G7, G10, G11, G12, G16, and G17.</p>
+    <p><strong>Approve or edit before writing test cases or automation.</strong></p>
+  </section>
+
+  <footer>
+    Test Plan — VWO-49 | Draft for human review | Source: exported Jira ticket asset
+  </footer>
+</main>
+</body>
+</html>
